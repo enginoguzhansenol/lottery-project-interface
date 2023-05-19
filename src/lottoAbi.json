@@ -1,0 +1,593 @@
+[
+      {
+        "inputs": [],
+        "stateMutability": "payable",
+        "type": "constructor"
+      },
+      {
+        "inputs": [],
+        "name": "Amount",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "Owner",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "hash_rnd_number",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "enum Lotto.TicketType",
+            "name": "ticket_type",
+            "type": "uint8"
+          }
+        ],
+        "name": "buyTicket",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "M",
+            "type": "uint256"
+          },
+          {
+            "internalType": "enum Lotto.TicketType",
+            "name": "ticketType",
+            "type": "uint8"
+          },
+          {
+            "internalType": "enum Lotto.TicketStatus",
+            "name": "status",
+            "type": "uint8"
+          }
+        ],
+        "name": "calculatePrize",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "prize",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "checkForUpdate",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "lottery_no",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "ticket_no",
+            "type": "uint256"
+          }
+        ],
+        "name": "checkIfTicketWon",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "lottery_no",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "ticket_no",
+            "type": "uint256"
+          }
+        ],
+        "name": "collectTicketPrize",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "ticket_no",
+            "type": "uint256"
+          }
+        ],
+        "name": "collectTicketRefund",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "depositEther",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "getAllTicketsForCurrentLottery",
+        "outputs": [
+          {
+            "internalType": "uint256[]",
+            "name": "lottery_tickets",
+            "type": "uint256[]"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "lottery_no",
+            "type": "uint256"
+          }
+        ],
+        "name": "getAllTicketsForSpecificLottery",
+        "outputs": [
+          {
+            "internalType": "uint256[]",
+            "name": "lottery_tickets",
+            "type": "uint256[]"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "lottery_no",
+            "type": "uint256"
+          }
+        ],
+        "name": "getAllTicketsOfAUser",
+        "outputs": [
+          {
+            "internalType": "uint256[]",
+            "name": "user_tickets",
+            "type": "uint256[]"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_address",
+            "type": "address"
+          }
+        ],
+        "name": "getArrayBalance",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_address",
+            "type": "address"
+          }
+        ],
+        "name": "getBalance",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "_ticket_no",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_N",
+            "type": "uint256"
+          }
+        ],
+        "name": "getHash",
+        "outputs": [
+          {
+            "internalType": "bytes32",
+            "name": "hash",
+            "type": "bytes32"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "i",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "lottery_no",
+            "type": "uint256"
+          }
+        ],
+        "name": "getIthOwnedTicketNo",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint8",
+            "name": "status",
+            "type": "uint8"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "i",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "lottery_no",
+            "type": "uint256"
+          }
+        ],
+        "name": "getIthWinningTicket",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "ticket_no",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "lottery_no",
+            "type": "uint256"
+          }
+        ],
+        "name": "getLastOwnedTicketNo",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "ticket_no",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint8",
+            "name": "status",
+            "type": "uint8"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "getLotteryNos",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "lottery_no_submission",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "lottery_no_reveal",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "lottery_no",
+            "type": "uint256"
+          }
+        ],
+        "name": "getM",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "M",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "enum Lotto.TicketType",
+            "name": "ticket_type",
+            "type": "uint8"
+          }
+        ],
+        "name": "getTicketFee",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "fee",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "lottery_no",
+            "type": "uint256"
+          }
+        ],
+        "name": "getTotalLotteryMoneyCollected",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "bytes32",
+            "name": "_hash",
+            "type": "bytes32"
+          }
+        ],
+        "name": "hashIndex",
+        "outputs": [
+          {
+            "internalType": "int256",
+            "name": "",
+            "type": "int256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "nofCurrentLotteryTickets",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "count",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "lottery_no",
+            "type": "uint256"
+          }
+        ],
+        "name": "nofSpecificLotteryTickets",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "count",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "lottery_no",
+            "type": "uint256"
+          }
+        ],
+        "name": "nofUserTickets",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "count",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "_ticket_no",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_N",
+            "type": "uint256"
+          }
+        ],
+        "name": "revealRndNumber",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "reveal_no",
+            "type": "uint256"
+          }
+        ],
+        "name": "updateStatusAfterReveal",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "name": "users",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "hasFaucet",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "amnt",
+            "type": "uint256"
+          }
+        ],
+        "name": "withdrawEther",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ],
+    "devdoc": {
+      "kind": "dev",
+      "methods": {},
+      "version": 1
+    },
+    "userdoc": {
+      "kind": "user",
+      "methods": {},
+      "version": 1
+    }
+  },
+  "settings": {
+    "compilationTarget": {
+      "contracts/Lotto.sol": "Lotto"
+    },
+    "evmVersion": "paris",
+    "libraries": {},
+    "metadata": {
+      "bytecodeHash": "ipfs"
+    },
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "remappings": []
+  },
+  "sources": {
+    "contracts/Lotto.sol": {
+      "keccak256": "0x539c0b47cd3e58a538a32aca0bc8f564e59bde46591d24c64478a6970ffe2824",
+      "urls": [
+        "bzz-raw://e6f966e372c5e6452b5914c79b44cbedfd176675f981c578c714258c1c6d3202",
+        "dweb:/ipfs/QmPDvvyBCvepPh7rMByBWcmkt4ohgJ3sNa1DuRWf8paAgW"
+      ]
+    },
+    "hardhat/console.sol": {
+      "keccak256": "0x60b0215121bf25612a6739fb2f1ec35f31ee82e4a8216c032c8243d904ab3aa9",
+      "license": "MIT",
+      "urls": [
+        "bzz-raw://6e29880d33dd479bb046ba306993d26ccb779a4b1d94a046cb3567f22948bb4d",
+        "dweb:/ipfs/QmfTY1qzPt5C63Wc7y6JqfZr5899NRvXYdCpyLzR5FXQic"
+      ]
