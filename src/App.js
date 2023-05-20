@@ -1,94 +1,95 @@
-import React, { useState, useReducer } from "react";
+import React, { useState } from "react";
 import { ethers } from "ethers";
-import { styled } from '@mui/material/styles';
-import { useRef } from 'react';
-import { margin } from "@mui/system";
 import lottoAbi from './lottoAbi.json';
 
-
 function App() {
-
-    const [active, setActive] = useState(false);
-    const handleClick = () => {
-      setActive(!active);
-    };
-  
-    window.userAddress = null;
-    const { Web3Provider } = ethers.providers;
-    const lottoAddress = '0xE5f2A565Ee0Aa9836B4c80a07C8b32aAd7978e22';
-  
-    const provider = Web3Provider(window.ethereum);
+    const lottoAddress = '0x1a76e97C017db0D802123101F953D005B80bd951';
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(lottoAddress, lottoAbi, signer); 
 
-  
-    async function depositEther(event, amount) {
-      event.preventDefault();
-      if (window.web3) {
-      try {
-        const provider = Web3Provider(window.ethereum);
-          const signer = provider.getSigner();
+    // State for form inputs
+    const [amount, setAmount] = useState(0);
+    const [ticketType, setTicketType] = useState('FULL');
+    const [ticketId, setTicketId] = useState(0);
+    const [number, setNumber] = useState(0);
 
-          const contract = new ethers.Contract(lottoAddress, lottoAbi, signer);
-          var a = await contract.depositEther({
-            value: ethers.parseEther(amount)
-          });
-        } catch (error) {
-          console.error(error);
+    async function depositEther(event) {
+        event.preventDefault();
+        if (window.ethereum) {
+            try {
+                const weiAmount = ethers.utils.parseEther(amount.toString());
+                const tx = await contract.depositEther({ value: weiAmount });
+                await tx.wait();
+                alert('Deposit successful!');
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+            alert("Please install Metamask");
         }
-      } else {
-        alert("Change the error");
-      }
+    }
+
+    // You need to implement the below functions
+    function withdrawEther() {
+        // interact with smart contract here
     }
   
+    function buyTicket() {
+        // interact with smart contract here
+    }
+  
+    function collectTicketRefund() {
+        // interact with smart contract here
+    }
+  
+    function revealRndNumber() {
+        // interact with smart contract here
+    }
+
     return (
       <div style={{ marginBottom: '20px' }}>
-      <div className="form-group">
-        <label htmlFor="quantity">Select amount for the operation: </label>
-        <input type="number" id="quantity" name="quantity" min="1" max="5" />
-      </div>
-    
-      <div className="form-group" style={{ marginBottom: '20px' }}>
-        <button className="button">Deposit Ether onClick=depositEther()</button>
-        <button className="button">Withdraw Ether</button>
-      </div>
-    
-      <div className="form-group">
-        <label htmlFor="ticket-type">Choose a ticket type: </label>
-        <select name="ticket-type" id="ticket-type">
-          <option value="FULL">FULL</option>
-          <option value="HALF">HALF</option>
-          <option value="QUARTER">QUARTER</option>
-        </select>
-      </div>
-      <div className="form-group" style={{ marginBottom: '20px' }}>
-        <button className="button">Buy Ticket</button>
-      </div>
-      <div className="form-group">
-        <label htmlFor="ticket-id">Select the ticket id: </label>
-        <input type="number" id="ticket-id" name="ticket-id"  min="0"/>
-      </div>
-      <div className="form-group" style={{ marginBottom: '20px' }}>
-        <button className="button">Collect ticket refund</button>
-      </div>
-      <div className="form-group">
-        <label htmlFor="ticket-id">Select the ticket id: </label>
-        <input type="number" id="ticket-id" name="ticket-id"  min="0" />
-      </div>
-      <div className="form-group">
-        <label htmlFor="number">Select the number: </label>
-        <input type="number" id="number" name="number"  min="0"/>
-      </div>
-      <div className="form-group" style={{ marginBottom: '20px' }}>
-        <button className="button">Reveal Rnd Number</button>
-      </div>
-    </div>
-    
-
-
+        <div>
+          <label>Select amount for the operation: </label>
+          <input type="number" min="1" max="5" value={amount} onChange={e => setAmount(e.target.value)} />
+        </div>
       
-
+        <div>
+          <button onClick={depositEther}>Deposit Ether</button>
+          <button onClick={withdrawEther}>Withdraw Ether</button>
+        </div>
+      
+        <div>
+          <label>Choose a ticket type: </label>
+          <select name="ticket-type" value={ticketType} onChange={e => setTicketType(e.target.value)}>
+            <option value="FULL">FULL</option>
+            <option value="HALF">HALF</option>
+            <option value="QUARTER">QUARTER</option>
+          </select>
+        </div>
+        <div>
+          <button onClick={buyTicket}>Buy Ticket</button>
+        </div>
+        <div>
+          <label>Select the ticket id: </label>
+          <input type="number" min="0" value={ticketId} onChange={e => setTicketId(e.target.value)} />
+        </div>
+        <div>
+          <button onClick={collectTicketRefund}>Collect ticket refund</button>
+        </div>
+        <div>
+          <label>Select the ticket id: </label>
+          <input type="number" min="0" value={ticketId} onChange={e => setTicketId(e.target.value)} />
+        </div>
+        <div>
+          <label>Select the number: </label>
+          <input type="number" min="0" value={number} onChange={e => setNumber(e.target.value)} />
+        </div>
+        <div>
+          <button onClick={revealRndNumber}>Reveal Rnd Number</button>
+        </div>
+      </div>
     );
-  }
-  
-  export default App;
+}
+
+export default App;
