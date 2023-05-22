@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import lottoAbi from './lottoAbi.json';
 
 function App() {
-    const lottoAddress = '0x1a76e97C017db0D802123101F953D005B80bd951';
+    const lottoAddress = '0xBa5482bb827740FF47Aa8a8e4052588f993d461B';
     /*const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();*/
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -119,7 +119,7 @@ function App() {
       if (window.ethereum) {
           try {
               const tx = await contract.getLastOwnedTicketNo(lotteryNo);
-              await tx.wait();
+              alert('Successful!')
               const ticket_no = tx[0];
               const status = tx[1];
               alert('Successful! Ticket No: ' + String(ticket_no) + " Status: " + String(status) );
@@ -156,7 +156,7 @@ async function checkIfTicketWon(event) {
       try {
           const tx = await contract.checkIfTicketWon(lotteryNo, ticketId);
           await tx.wait();
-          alert('Successful! The ticket has won ' + String(tx[0]) + ' finneys.');
+          alert('Successful! The ticket has won ' + String(tx) + ' finneys.');
       } catch (error) {
           console.error(error);
       }
@@ -199,11 +199,9 @@ async function getIthWinningTicket(event) {
 }
 async function getLotteryNos(event) {
   // interact with smart contract here
-  event.preventDefault();
   if (window.ethereum) {
       try {
           const tx = await contract.getLotteryNos();
-          await tx.wait();
           const submission = tx[0];
           const reveal = tx[1];
           alert('Successful! Submission Lottery: ' + String(submission) + " Reveal Lottery: " + String(reveal) );
@@ -221,8 +219,7 @@ async function getTotalLotteryMoneyCollected(event) {
   if (window.ethereum) {
       try {
           const tx = await contract.getTotalLotteryMoneyCollected(lotteryNo);
-          await tx.wait();
-          const amount = tx[0];
+          const amount = tx;
           alert('Successful! Total lottery money collected for specified lottery: ' + String(amount));
       } catch (error) {
           console.error(error);
