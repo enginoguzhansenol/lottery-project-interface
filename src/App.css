@@ -36,19 +36,26 @@
     transform: rotate(360deg);
   }
 }
-
+.part {
+  display: flex;
+  flex-direction: column;
+  padding-left: 50px;
+}
 .container {
   margin-bottom: 20px;
+  margin-top: 20px;
   font-family: Arial, sans-serif;
+  display: flex;
 }
 
 .input-group {
-  margin-bottom: 1px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .input-group label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .input-group input, 
@@ -71,8 +78,8 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 20px;
-  margin: 8px 3px;
+  font-size: 10px;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 

@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 import "./App.css";
 
 function App() {
-    const lottoAddress = '0xf2388927a9fBe2AF5AdA570E51B718593B9cE8D2';
+    const lottoAddress = '0x323Dc3177ED735d9302533848FA4047F6bc0aD30';
     /*const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();*/
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -22,6 +22,7 @@ function App() {
 
     // State for form inputs
     const [amount, setAmount] = useState(0);
+    const [amountFinney, setAmountfinney] = useState(0);
     const [ticketType, setTicketType] = useState('FULL');
     const [ticketId, setTicketId] = useState(0);
     const [number, setNumber] = useState(0);
@@ -76,8 +77,7 @@ function App() {
         event.preventDefault();
         if (window.ethereum) {
             try {
-                const weiAmount = ethers.utils.parseEther(amount.toString());
-                const tx = await contract.withdrawEther(weiAmount);
+                const tx = await contract.withdrawEther(amountFinney);
                 await tx.wait();
                 alert('Withdraw successful!');
             } catch (error) {
@@ -176,7 +176,6 @@ async function checkIfTicketWon(event) {
   if (window.ethereum) {
       try {
           const tx = await contract.checkIfTicketWon(lotteryNo, ticketId);
-          await tx.wait();
           alert('Successful! The ticket has won ' + String(tx) + ' finneys.');
       } catch (error) {
           console.error(error);
@@ -261,10 +260,11 @@ async function getTotalLotteryMoneyCollected(event) {
 
 return (
   <Box className="container">
+    <Box className="part">
     <Box height={10} />
     <Box className="input-group">
       <TextField
-        label="Select amount for the operation"
+        label="Select ether amount for deposit"
         type="number"
         value={amount}
         onChange={e => setAmount(e.target.value)}
@@ -272,11 +272,25 @@ return (
     </Box>
     <Box className="button-group">
       <Button variant="contained" color="primary" onClick={depositEther}>Deposit Ether</Button>
+    </Box>
+
+    <Box className="input-group">
+      <TextField
+        label="Select finney amount for withdraw"
+        type="number"
+        value={amountFinney}
+        onChange={e => setAmountfinney(e.target.value)}
+      />
+    </Box>
+
+    <Box className="button-group">
       <Button variant="contained" color="secondary" onClick={withdrawEther}>Withdraw Ether</Button>
     </Box>
+    </Box>
     
+    <Box className="part">
     <Box className="input-group">
-      <FormControl fullWidth>
+      <FormControl>
         <InputLabel>Choose a ticket type</InputLabel>
         <Select
           value={ticketType}
@@ -324,6 +338,10 @@ return (
     <Box className="button-group">
       <Button variant="contained" color="secondary" onClick={collectTicketRefund}>Collect Ticket Refund</Button>
     </Box>
+    </Box>
+
+    <Box className="part">
+       
     <Box height={10} />
     <Box className="input-group">
       <TextField
@@ -346,6 +364,9 @@ return (
     <Box className="button-group">
       <Button variant="contained" color="primary" onClick={revealRndNumber}>Reveal Rnd Number</Button>
     </Box>
+    </Box>
+    
+    <Box className="part">
     <Box height={10} />
     <Box className="input-group">
       <TextField
@@ -376,6 +397,9 @@ return (
     <Box className="button-group">
       <Button variant="contained" color="secondary" onClick={getIthWinningTicket}>Get I'th Winning Ticket</Button>
     </Box>
+    </Box>
+
+    <Box className="part">
     <Box height={10} />
     <Box className="input-group">
       <TextField
@@ -416,6 +440,9 @@ return (
       <Button variant="contained" color="primary" onClick={getTotalLotteryMoneyCollected}>Get Total Lottery Money Collected</Button>
     </Box>
   </Box>
+    </Box>
+    
+   
 );
 }
 
