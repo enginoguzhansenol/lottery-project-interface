@@ -1,9 +1,17 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
 import lottoAbi from './lottoAbi.json';
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import Box from "@mui/material/Box";
+import "./App.css";
 
 function App() {
-    const lottoAddress = '0xBa5482bb827740FF47Aa8a8e4052588f993d461B';
+    const lottoAddress = '0xf2388927a9fBe2AF5AdA570E51B718593B9cE8D2';
     /*const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();*/
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -29,6 +37,21 @@ function App() {
       } else {
         return 2;
       }
+    }
+
+    function statusEnumConverter(statusEnum){
+      const enumValues = [
+        'BOUGHT',
+        'WINNER1',
+        'WINNER2',
+        'WINNER3',
+        'LOSER',
+        'COLLECTED',
+        'REFUNDED',
+        'CANCELLED',
+      ];
+      const statusConverted = enumValues[statusEnum];
+      return statusConverted;
     }
 
     async function depositEther(event) {
@@ -119,10 +142,9 @@ function App() {
       if (window.ethereum) {
           try {
               const tx = await contract.getLastOwnedTicketNo(lotteryNo);
-              alert('Successful!')
               const ticket_no = tx[0];
               const status = tx[1];
-              alert('Successful! Ticket No: ' + String(ticket_no) + " Status: " + String(status) );
+              alert('Successful! Ticket No: ' + String(ticket_no) + " Status: " + statusEnumConverter(status) );
           } catch (error) {
               console.error(error);
           }
@@ -137,10 +159,9 @@ function App() {
     if (window.ethereum) {
         try {
             const tx = await contract.getIthOwnedTicketNo(I, lotteryNo);
-            await tx.wait();
             const ticket_no = tx[0];
             const status = tx[1];
-            alert('Successful! Ticket No: ' + String(ticket_no) + " Status: " + String(status) );
+            alert('Successful! Ticket No: ' + String(ticket_no) + " Status: " + statusEnumConverter(status) );
         } catch (error) {
             console.error(error);
         }
@@ -183,19 +204,27 @@ async function collectTicketPrize(event) {
 async function getIthWinningTicket(event) {
   // interact with smart contract here
   event.preventDefault();
-  if (window.ethereum) {
-      try {
-          const tx = await contract.getIthWinningTicket(I, lotteryNo);
-          await tx.wait();
-          const ticket_no = tx[0];
-          const status = tx[1];
-          alert('Successful! Ticket No: ' + String(ticket_no) + " Status: " + String(status) );
-      } catch (error) {
-          console.error(error);
-      }
+  if(I === "1" || I === "2" || I === "3" ){
+    if (window.ethereum) {
+        try {
+            const tx = await contract.getIthWinningTicket(I, lotteryNo);
+            const ticket_no = tx[0];
+            const status = tx[1];
+            if(parseInt(status) === 0){
+              alert("The lottery has not ended.");
+            }
+            else{
+            alert('Successful! Ticket No: ' + String(ticket_no) + " Status: " + statusEnumConverter(status) );
+          }
+        } catch (error) {
+            console.error(error);
+        }
+    } else {
+        alert("Please install Metamask");
+    }
   } else {
-      alert("Please install Metamask");
-  }
+    alert("Please enter the values 1, 2, or 3.");
+  } 
 }
 async function getLotteryNos(event) {
   // interact with smart contract here
@@ -230,99 +259,164 @@ async function getTotalLotteryMoneyCollected(event) {
 }
 
 
-    return (
-      <div style={{ marginBottom: '20px' }}>
-        <div>
-          <label>Select amount for the operation: </label>
-          <input type="number" min="1" max="5" value={amount} onChange={e => setAmount(e.target.value)} />
-        </div>
-      
-        <div style={{ marginBottom: '20px' }}>
-          <button onClick={depositEther}>Deposit Ether</button>
-          <button onClick={withdrawEther}>Withdraw Ether</button>
-        </div>
-      
-        <div>
-          <label>Choose a ticket type: </label>
-          <select name="ticket-type" value={ticketType} onChange={e => setTicketType(e.target.value)}>
-            <option value="FULL">FULL</option>
-            <option value="HALF">HALF</option>
-            <option value="QUARTER">QUARTER</option>
-          </select>
-        </div>
-        <div>
-            <label>Enter an hash number: </label>
-            <input type="text" value={hash} onChange={e => setHash(e.target.value)}>
-            </input>
-        </div>
-        <div style={{ marginBottom: '20px' }}>
-          <button onClick={buyTicket}>Buy Ticket</button>
-        </div>
-        <div>
-          <label>Select the ticket id: </label>
-          <input type="number" min="0" value={ticketId} onChange={e => setTicketId(e.target.value)} />
-        </div>
-        <div>
-          <label>Select a lottery no: </label>
-          <input type="number" min="0" value={lotteryNo} onChange={e => setLotteryNo(e.target.value)} />
-        </div>
-        <div>
-          <button onClick={checkIfTicketWon}>Check If Ticket Won</button>
-        </div>
-        <div style={{ marginBottom: '20px' }}>
-          <button onClick={collectTicketRefund}>Collect ticket refund</button>
-        </div>
-        <div>
-          <label>Select the ticket id: </label>
-          <input type="number" min="0" value={ticketId} onChange={e => setTicketId(e.target.value)} />
-        </div>
-        <div>
-          <label>Select the number: </label>
-          <input type="number" min="0" value={number} onChange={e => setNumber(e.target.value)} />
-        </div>
-        <div style={{ marginBottom: '20px' }}>
-          <button onClick={revealRndNumber}>Reveal Rnd Number</button>
-        </div>
-        <div>
-          <label>Select a lottery no: </label>
-          <input type="number" min="0" value={lotteryNo} onChange={e => setLotteryNo(e.target.value)} />
-        </div>
-        <div>
-          <label>Select I: </label>
-          <input type="number" min="0" value={I} onChange={e => setI(e.target.value)} />
-        </div>
-        <div>
-          <button onClick={getLastOwnedTicketNo}>Get Last Owned Ticket No</button>
-        </div>
-        <div>
-          <button onClick={getIthOwnedTicketNo}>Get I'th Owned Ticket No</button>
-        </div>
-        <div style={{ marginBottom: '20px' }}>
-          <button onClick={getIthWinningTicket}>Get I'th Winning Ticket</button>
-        </div>
-        <div>
-          <label>Select a lottery no: </label>
-          <input type="number" min="0" value={lotteryNo} onChange={e => setLotteryNo(e.target.value)} />
-        </div>
-        <div>
-          <label>Select ticket no: </label>
-          <input type="number" min="0" value={ticketId} onChange={e => setI(e.target.value)} />
-        </div>
-        <div style={{ marginBottom: '20px' }}>
-          <button onClick={collectTicketPrize}>Collect Ticket Prize</button>
-        </div>
-        <div style={{ marginBottom: '20px' }}>
-          <button onClick={getLotteryNos}>Get Lottery No's</button>
-        </div>
-        <div>
-          <label>Select a lottery no: </label>
-          <input type="number" min="0" value={lotteryNo} onChange={e => setLotteryNo(e.target.value)} />
-        </div>
-        <div style={{ marginBottom: '20px' }}>
-          <button onClick={getTotalLotteryMoneyCollected}>Get Total Lottery Money Collected</button>
-        </div>
-      </div>
-    );
+return (
+  <Box className="container">
+    <Box height={10} />
+    <Box className="input-group">
+      <TextField
+        label="Select amount for the operation"
+        type="number"
+        value={amount}
+        onChange={e => setAmount(e.target.value)}
+      />
+    </Box>
+    <Box className="button-group">
+      <Button variant="contained" color="primary" onClick={depositEther}>Deposit Ether</Button>
+      <Button variant="contained" color="secondary" onClick={withdrawEther}>Withdraw Ether</Button>
+    </Box>
+    
+    <Box className="input-group">
+      <FormControl fullWidth>
+        <InputLabel>Choose a ticket type</InputLabel>
+        <Select
+          value={ticketType}
+          onChange={e => setTicketType(e.target.value)}
+        >
+          <MenuItem value={"FULL"}>FULL</MenuItem>
+          <MenuItem value={"HALF"}>HALF</MenuItem>
+          <MenuItem value={"QUARTER"}>QUARTER</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
+    <Box height={10} />
+    <Box className="input-group">
+      <TextField
+        label="Enter an hash number"
+        type="text"
+        value={hash}
+        onChange={e => setHash(e.target.value)}
+      />
+    </Box>
+    <Box className="button-group">
+      <Button variant="contained" color="primary" onClick={buyTicket}>Buy Ticket</Button>
+    </Box>
+    <Box height={10} />
+    <Box className="input-group">
+      <TextField
+        label="Select the ticket id"
+        type="number"
+        value={ticketId}
+        onChange={e => setTicketId(e.target.value)}
+      />
+    </Box>
+    <Box height={10} />
+    <Box className="input-group">
+      <TextField
+        label="Select a lottery no"
+        type="number"
+        value={lotteryNo}
+        onChange={e => setLotteryNo(e.target.value)}
+      />
+    </Box>
+    <Box className="button-group">
+      <Button variant="contained" color="primary" onClick={checkIfTicketWon}>Check If Ticket Won</Button>
+    </Box>
+    <Box className="button-group">
+      <Button variant="contained" color="secondary" onClick={collectTicketRefund}>Collect Ticket Refund</Button>
+    </Box>
+    <Box height={10} />
+    <Box className="input-group">
+      <TextField
+        label="Select the ticket id"
+        type="number"
+        value={ticketId}
+        onChange={e => setTicketId(e.target.value)}
+      />
+    </Box>
+    <Box height={10} />
+    <Box className="input-group">
+      <TextField
+        label="Select the number"
+        type="number"
+        value={number}
+        onChange={e => setNumber(e.target.value)}
+      />
+    </Box>
+    
+    <Box className="button-group">
+      <Button variant="contained" color="primary" onClick={revealRndNumber}>Reveal Rnd Number</Button>
+    </Box>
+    <Box height={10} />
+    <Box className="input-group">
+      <TextField
+        label="Select a lottery no"
+        type="number"
+        value={lotteryNo}
+        onChange={e => setLotteryNo(e.target.value)}
+      />
+    </Box>
+    
+    <Box className="input-group">
+      <TextField
+        label="Select I"
+        type="number"
+        value={I}
+        onChange={e => setI(e.target.value)}
+      />
+    </Box>
+
+    <Box className="button-group">
+      <Button variant="contained" color="secondary" onClick={getLastOwnedTicketNo}>Get Last Owned Ticket No</Button>
+    </Box>
+
+    <Box className="button-group">
+      <Button variant="contained" color="primary" onClick={getIthOwnedTicketNo}>Get I'th Owned Ticket No</Button>
+    </Box>
+
+    <Box className="button-group">
+      <Button variant="contained" color="secondary" onClick={getIthWinningTicket}>Get I'th Winning Ticket</Button>
+    </Box>
+    <Box height={10} />
+    <Box className="input-group">
+      <TextField
+        label="Select a lottery no"
+        type="number"
+        value={lotteryNo}
+        onChange={e => setLotteryNo(e.target.value)}
+      />
+    </Box>
+    <Box height={10} />
+    <Box className="input-group">
+      <TextField
+        label="Select ticket no"
+        type="number"
+        value={ticketId}
+        onChange={e => setTicketId(e.target.value)}
+      />
+    </Box>
+
+    <Box className="button-group">
+      <Button variant="contained" color="primary" onClick={collectTicketPrize}>Collect Ticket Prize</Button>
+    </Box>
+
+    <Box className="button-group">
+      <Button variant="contained" color="secondary" onClick={getLotteryNos}>Get Lottery No's</Button>
+    </Box>
+    <Box height={10} />
+    <Box className="input-group">
+      <TextField
+        label="Select a lottery no"
+        type="number"
+        value={lotteryNo}
+        onChange={e => setLotteryNo(e.target.value)}
+      />
+    </Box>
+
+    <Box className="button-group">
+      <Button variant="contained" color="primary" onClick={getTotalLotteryMoneyCollected}>Get Total Lottery Money Collected</Button>
+    </Box>
+  </Box>
+);
 }
 
 export default App;

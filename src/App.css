@@ -36,3 +36,43 @@
     transform: rotate(360deg);
   }
 }
+
+.container {
+  margin-bottom: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.input-group {
+  margin-bottom: 1px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group input, 
+.input-group select, 
+.input-group button {
+  padding: 15px;
+  font-size: 1rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.button-group button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 8px 18px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin: 8px 3px;
+  cursor: pointer;
+}
+
