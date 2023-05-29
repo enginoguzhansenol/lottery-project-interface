@@ -11,13 +11,13 @@ import Box from "@mui/material/Box";
 import "./App.css";
 
 function App() {
-    const lottoAddress = '0x323Dc3177ED735d9302533848FA4047F6bc0aD30';
+    const lottoAddress = '0x120Af0a1662A07189A3a0382ddeb3167390D9485';
     /*const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();*/
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     provider.send('eth_requestAccounts', []); // <- this promps user to connect metamask
     const signer = provider.getSigner();
-    const contract = new ethers.Contract(lottoAddress, lottoAbi, signer); 
+    const contract = new ethers.Contract(lottoAddress, lottoAbi, signer);
 
 
     // State for form inputs
@@ -55,6 +55,22 @@ function App() {
       return statusConverted;
     }
 
+    async function updateLottery(event) {
+      //connectWallet();
+      event.preventDefault();
+      if (window.ethereum) {
+          try {
+              const tx = await contract.checkForUpdate();
+              await tx.wait();
+              alert('Successful!');
+          } catch (error) {
+              console.error(error);
+          }
+      } else {
+          alert("Please install Metamask");
+      }
+  }
+
     async function depositEther(event) {
         //connectWallet();
         event.preventDefault();
@@ -87,22 +103,22 @@ function App() {
             alert("Please install Metamask");
         }
     }
-  
+
     async function buyTicket(event) {
-        // interact with smart contract here
-        event.preventDefault();
-        if (window.ethereum) {
-            try {
-                const tx = await contract.buyTicket(hash, getTicketTypeIndex());
-                await tx.wait();
-                alert('Successful!');
-            } catch (error) {
-                console.error(error);
-            }
-        } else {
-            alert("Please install Metamask");
-        }
-    }
+      // interact with smart contract here
+      event.preventDefault();
+      if (window.ethereum) {
+          try {
+              const tx = await contract.buyTicket(hash, getTicketTypeIndex());
+              await tx.wait();
+              alert('Successful!');
+          } catch (error) {
+              console.error(error);
+          }
+      } else {
+          alert("Please install Metamask");
+      }
+  }
   
     async function collectTicketRefund(event) {
         // interact with smart contract here
@@ -208,13 +224,8 @@ async function getIthWinningTicket(event) {
         try {
             const tx = await contract.getIthWinningTicket(I, lotteryNo);
             const ticket_no = tx[0];
-            const status = tx[1];
-            if(parseInt(status) === 0){
-              alert("The lottery has not ended.");
-            }
-            else{
-            alert('Successful! Ticket No: ' + String(ticket_no) + " Status: " + statusEnumConverter(status) );
-          }
+            const winAmount = tx[1];
+            alert('Successful! Ticket No: ' + String(ticket_no) + ". You won " + winAmount + " finney.");
         } catch (error) {
             console.error(error);
         }
@@ -262,6 +273,10 @@ return (
   <Box className="container">
     <Box className="part">
     <Box height={10} />
+    <Box className="button-group">
+      <Button variant="contained" color="secondary" onClick={updateLottery}>Update Lottery</Button>
+    </Box>
+    <Box height={10} />
     <Box className="input-group">
       <TextField
         label="Select ether amount for deposit"
@@ -286,6 +301,8 @@ return (
     <Box className="button-group">
       <Button variant="contained" color="secondary" onClick={withdrawEther}>Withdraw Ether</Button>
     </Box>
+
+
     </Box>
     
     <Box className="part">
@@ -305,7 +322,7 @@ return (
     <Box height={10} />
     <Box className="input-group">
       <TextField
-        label="Enter an hash number"
+        label="Enter an hash number: "
         type="text"
         value={hash}
         onChange={e => setHash(e.target.value)}
