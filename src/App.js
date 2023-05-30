@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 import "./App.css";
 
 function App() {
-    const lottoAddress = '0x120Af0a1662A07189A3a0382ddeb3167390D9485';
+    const lottoAddress = '0x64e0820b8625F4f6Bb03B5D74Ba9F55FdEaC6559';
     /*const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();*/
     const provider = new ethers.providers.Web3Provider(window.ethereum);
